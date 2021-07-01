@@ -1,9 +1,14 @@
 package com.example.imageviewerapp
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.app.ActivityOptions
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.GridView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import android.util.Pair as UtilPair
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,6 +44,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeActivity(view: View, position: Int) {
+        val intent = Intent(this, ShowActivity::class.java)
+        intent.putExtra("COLOR", colors[position])
+        intent.putExtra("COLOR_NAME", colorsName[position])
+        val pair1 = UtilPair.create(view.findViewById<View>(R.id.detailImage),
+                ShowActivity().VIEW_NAME_HEADER_IMAGE)
+        val pair2 = UtilPair.create(view.findViewById<View>(R.id.detailText),
+                ShowActivity().VIEW_NAME_HEADER_TEXT)
+        @SuppressWarnings("unchecked")
+        val activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                this as Activity,
+                pair1,
+                pair2)
+        ActivityCompat.startActivity(this, intent, activityOptions.toBundle())
 
     }
 
